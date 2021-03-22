@@ -1,0 +1,44 @@
+description: >
+  Scan the application with Veracode Pipeline Scan. 
+  This command calls the others, and should be used as the command for scanning.
+parameters:
+  working-directory:
+    description: The directory out of which circleci will run commands
+    type: string
+    default: .
+  policy-name:
+    description: Name of the custom policy to be applied to the scan
+    type: string
+    default: W2G_DEFAULT
+  fail-on-severity:
+    description: >-
+      Scan will fail on issues of the set severity. Must be a comma separated
+      string of any of the following values= ["Very High", "High", "Medium",
+      "Low", "Very Low"].
+    type: string
+    default: '"Very High, High, "'
+  target-directory:
+    description: The target directory to scan with veracode.
+    type: string
+  timeout:
+    description: The amount of time(in minutes) before reporting an unsuccessful scan.
+    type: integer
+    default: 60
+  verbose:
+    description: Display verbose output to console
+    type: boolean
+    default: true
+working_directory: ~/repo/<< parameters.working-directory >>
+executor:
+  name: pipeline
+  tag: << parameters.tag >>
+steps:
+  - checkout:
+      path: ~/repo
+  - pipeline-scan:
+      vid: << parameters.vid >> 
+      vkey: << parameters.vkey >> 
+      appname: << parameters.appname >>
+      version: << parameters.version >>
+      filepath: << parameters.filepath >>
+    

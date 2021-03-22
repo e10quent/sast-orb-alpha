@@ -1,0 +1,110 @@
+description: >
+  Scan the application for SAST and U&S SCA with Veracode. 
+  This command calls the others, and should be used as the command for scanning.
+parameters:
+  appname:
+    type: string
+    default: "${CIRCLE_PROJECT_REPONAME}"
+    description: Name of the Veracode application profile.
+  createprofile:
+    type: boolean
+    default: true
+    description: Create a Veracode application profile, if one does not exist, for the specified application profile name. Set to true to create a profile. Set to false to not create a profile.
+  description:
+    type: string
+    default: ""
+    description: Description of the application profile
+  teams:
+    type: string
+    default: ""  
+    description: > 
+      Comma-separated list of team names associated with the specified application. 
+      Validates against the names of existing teams for this account.
+  vid:
+    type: env_var_name
+    default: VERACODE_API_KEY_ID
+    description: >
+      Name of env var containing your Veracode API ID. Pass this as a raw string.
+      If omitted it's assumed the CLI has already been setup with a valid token beforehand.
+  vkey:
+    type: env_var_name
+    default: VERACODE_API_KEY_SECRET
+    description: >
+      Name of env var containing your Veracode API KEY. Pass this as a raw string.
+      If omitted it's assumed the CLI has already been setup with a valid token beforehand.
+  criticality:
+    type: enum
+    enum: ["VeryLow", "Low", "Medium", "High", "VeryHigh"]
+    default: "Medium"
+    description: Business Criticality assigning default policy of the organization.
+  version: 
+    type: string
+    default: ""
+    description: >
+      Name or version of the build that you want to scan. 
+  filepath: 
+    type: string
+    default: ""
+    description: >
+      Filepath or folderpath of the files you want to upload to Veracode for scanning. 
+      By default, the integration uploads all the subdirectories and files of this filepath. 
+      Ensure you have prepared the files according to the Veracode Packaging Requirements.
+  exclude:
+    type: string
+    description: 'modules to exclude from module selection'
+  include:
+    type: string
+    description: 'modules to include in module selection'
+  scantimeout:
+    description: >
+      Number of minutes to wait for the scan to complete and pass policy. 
+      If the scan does not complete or fails policy, the build fails. Default is 60 minutes.
+    type: integer
+    default: 60
+  selectedpreviously:
+    type: boolean
+    default: true
+    description: >
+      Filepath or folderpath of the files you want to upload to Veracode for scanning. 
+      By default, the integration uploads all the subdirectories and files of this filepath. 
+      Ensure you have prepared the files according to the Veracode Packaging Requirements.
+  scanallnonfataltoplevelmodules:
+    type: boolean
+    description: 'All top level modules'
+  selected:
+    type: boolean
+    description: 'platform selected modules'
+docker:
+  # - image: circleci/openjdk:11.0.2-jdk
+  - image: veracode/api-wrapper-java:latest
+
+working_directory: ~/repos
+steps:
+
+  - run: 
+          name: "Package for upload to Veracode"
+          #command: zip -r upload.zip nodegoat
+          command: zip -r $CIRCLE_PROJECT_REPONAME.zip nodegoat -x *node_modules/*
+    
+      # grab the Veracode agent
+      #- run:
+      #    name: "Get the Veracode agent"
+      #    command: |
+      #      wget https://repo1.maven.org/maven2/com/veracode/vosp/api/wrappers/vosp-api-wrappers-java/20.12.7.3/vosp-api-wrappers-java-20.12.7.3.jar -O VeracodeJavaAPI.jar
+      #      curl -s http://search.maven.org/solrsearch/select?q=g:"com.veracode.vosp.api.wrappers"+AND+a:"vosp-api-wrappers-java" |grep -Po 'latestVersion.:.\K[^"]*'
+            #chmod 755 VeracodeJavaAPI.jar
+
+      # upload for scanning
+      # env vars are used to pass login creds and set the scan name
+  - run:
+          name: "Upload to Veracode"
+          command: java -jar /opt/veracode/api-wrapper.jar
+              -vid $VID
+              -vkey $VKEY
+              -action uploadandscan 
+              -appname $CIRCLE_PROJECT_REPONAME
+              -createprofile true 
+              -version CircleCI-$CIRCLE_BUILD_NUM 
+              -filepath $CIRCLE_PROJECT_REPONAME.zip
+               <<parameters.additional-arguments>>
+  # veracode test

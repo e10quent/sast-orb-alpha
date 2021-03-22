@@ -1,0 +1,12 @@
+description: >
+  Select version of Veracode Image to use.  Any available tag from this list can be used: https://hub.docker.com/r/veracode/api-wrapper-java/tags
+docker:
+  # - image: circleci/openjdk:11.0.2-jdk
+  - image: 'veracode/api-wrapper-java:<<parameters.tag>>'
+parameters:
+  tag:
+    default: latest
+    description: >
+      Pick a specific veracode/api-wrapper-java image variant:
+      https://hub.docker.com/r/veracode/api-wrapper-java/tags 
+    type: string
