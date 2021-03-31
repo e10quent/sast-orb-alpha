@@ -11,7 +11,7 @@ parameters:
     default: true
     description: >
       Create a Veracode application profile, if one does not exist, for the specified application profile name. 
-      PSet to true to create a profile. Set to false to not create a profile.
+      Set to true to create a profile. Set to false to not create a profile.
   description:
     type: string
     default: ""
