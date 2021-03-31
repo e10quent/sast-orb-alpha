@@ -1,8 +1,8 @@
 version: 2.1
 description: >
   Community Veracode orb for executing Veracode SAST Scans incl. pipeline and Publishing results to various feedback channels.
-    Additional information regarding Checkmarx can be found here: https://help.veracode.com 
-    Additional information regarding CxFlow can be found here: "https://github.com/e10quent/sast-orb
+    Additional information regarding Checkmarx can be found here: https://help.veracode.com
+    Additional information regarding CxFlow can be found here: "https://github.com/e10quent/sast-orb"
   The following Environment Variables must be set within your CircleCI project for this orb to function:
 display:
   home_url: "https://www.veracode.com"

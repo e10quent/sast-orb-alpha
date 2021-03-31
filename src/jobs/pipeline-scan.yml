@@ -37,7 +37,7 @@ steps:
   - pipeline-scan:
       vid: << parameters.vid >> 
       vkey: << parameters.vkey >> 
-      appname: << parameters.appname >>
+      appid: << parameters.appid >>
       version: << parameters.version >>
       filepath: << parameters.filepath >>
     
