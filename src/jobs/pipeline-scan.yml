@@ -9,12 +9,11 @@ parameters:
   policy-name:
     description: Name of the custom policy to be applied to the scan
     type: string
-    default: W2G_DEFAULT
+    default: "PCI 3.2.1 v1"
   fail-on-severity:
     description: >-
       Scan will fail on issues of the set severity. Must be a comma separated
-      string of any of the following values= ["Very High", "High", "Medium",
-      "Low", "Very Low"].
+      string of any of the following values= ["Very High", "High", "Medium","Low", "Very Low"].
     type: string
     default: '"Very High, High, "'
   target-directory:
