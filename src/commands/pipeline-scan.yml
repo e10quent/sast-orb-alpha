@@ -1,3 +1,6 @@
+description: >
+  Scan the application for SAST Pipeline with Veracode.
+  This command calls the others, and should be used as the command for scanning.
 parameters:
   vid:
     type: env_var_name
@@ -54,7 +57,7 @@ steps:
         --veracode_api_key << parameters.vkey >>  \
         --timeout << parameters.timeout >> \
         --issue_details << parameters.verbose >> \
-        --summary_output true 
+        --summary_output true
 - run:
       name: Scan Project
       no_output_timeout: 30m
@@ -66,4 +69,4 @@ steps:
         --veracode_api_key << parameters.vkey >>  \
         --timeout << parameters.timeout >> \
         --issue_details << parameters.verbose >> \
-        --summary_output true 
+        --summary_output true
