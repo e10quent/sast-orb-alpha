@@ -1,6 +1,6 @@
 ---
 description: >
-  Scan the application with Veracode Pipeline Scan. 
+  Scan the application with Veracode Pipeline Scan.
   This command calls the others, and should be used as the command for scanning.
 parameters:
   working-directory:
@@ -13,15 +13,18 @@ parameters:
     default: "PCI 3.2.1 v1"
   fail-on-severity:
     description: >-
-      Scan will fail on issues of the set severity. Must be a comma separated
-      string of any of the following values= ["Very High", "High", "Medium","Low", "Very Low"].
+      Scan will fail on issues of the set severity. Must be a comma
+      separated string of any of the following values=
+      ["Very High", "High", "Medium","Low", "Very Low"].
     type: string
     default: '"Very High, High, "'
   target-directory:
     description: The target directory to scan with veracode.
     type: string
   timeout:
-    description: The amount of time(in minutes) before reporting an unsuccessful scan.
+    description: >
+      The amount of time(in minutes) before reporting
+      an unsuccessful scan.
     type: integer
     default: 60
   verbose:
@@ -36,9 +39,8 @@ steps:
   - checkout:
       path: ~/repo
   - pipeline-scan:
-      vid: << parameters.vid >> 
-      vkey: << parameters.vkey >> 
+      vid: << parameters.vid >>
+      vkey: << parameters.vkey >>
       appid: << parameters.appid >>
       version: << parameters.version >>
       filepath: << parameters.filepath >>
-    
