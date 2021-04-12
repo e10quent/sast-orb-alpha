@@ -46,7 +46,7 @@ parameters:
     description: Business Criticality assigns default policy.
   version:
     type: string
-    default: ""
+    default: "CircleCI - ${CIRCLE_BUILD_NUM}"
     description: >
       Name or version of the build that you want to scan.
   filepath:
@@ -84,10 +84,6 @@ parameters:
   selected:
     type: boolean
     description: "platform selected modules"
-docker:
-  - image: veracode/api-wrapper-java:latest
-
-working_directory: ~/repos
 steps:
   - run:
       name: "Package for upload to Veracode"
@@ -110,11 +106,12 @@ steps:
   - run:
       name: "Upload to Veracode"
       command: java -jar /opt/veracode/api-wrapper.jar
-        -vid $VID
-        -vkey $VKEY
-        -action uploadandscan
-        -appname $CIRCLE_PROJECT_REPONAME
-        -createprofile true
-        -version CircleCI-$CIRCLE_BUILD_NUM
-        -filepath $CIRCLE_PROJECT_REPONAME.zip
+        -vid << parameters.vid >> \
+        -vkey << parameters.key >> \
+        -teams << parameters.teams >> \
+        -action uploadandscan \
+        -appname << parameters.appname >> \
+        -createprofile true \
+        -version << parameters.version >> \
+        -filepath << parameters.filepath >> \
         <<parameters.additional-arguments>>
