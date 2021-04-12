@@ -1,3 +1,4 @@
+---
 description: >
   Scan the application for SAST Pipeline with Veracode.
   This command calls the others, and should be used as the command for scanning.

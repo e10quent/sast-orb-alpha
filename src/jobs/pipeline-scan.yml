@@ -1,3 +1,4 @@
+---
 description: >
   Scan the application with Veracode Pipeline Scan. 
   This command calls the others, and should be used as the command for scanning.
