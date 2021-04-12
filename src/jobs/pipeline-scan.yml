@@ -1,8 +1,24 @@
 ---
 description: >
-  Scan the application with Veracode Pipeline Scan.
+ Scan the application for SAST Pipeline with Veracode.
   This command calls the others, and should be used as the command for scanning.
 parameters:
+  vid:
+    type: env_var_name
+    default: VERACODE_API_ID
+    description: >
+      Name of env var containing your Veracode API ID.
+      Pass this as a raw string.
+      If omitted it's assumed the CLI has already been setup
+      with a valid token beforehand.
+  vkey:
+    type: env_var_name
+    default: VERACODE_API_KEY
+    description: >
+      Name of env var containing your Veracode API KEY.
+      Pass this as a raw string.
+      If omitted it's assumed the CLI has already been setup
+      with a valid token beforehand.
   working-directory:
     description: The directory out of which circleci will run commands
     type: string
@@ -13,11 +29,11 @@ parameters:
     default: "PCI 3.2.1 v1"
   fail-on-severity:
     description: >-
-      Scan will fail on issues of the set severity. Must be a comma
-      separated string of any of the following values=
-      ["Very High", "High", "Medium","Low", "Very Low"].
+      Scan will fail on issues of the set severity. Must be a comma separated
+      string of any of the following values= ["Very High", "High", "Medium",
+      "Low", "Very Low"].
     type: string
-    default: '"Very High, High, "'
+    default: '"Very High, High"'
   target-directory:
     description: The target directory to scan with veracode.
     type: string
@@ -41,6 +57,8 @@ steps:
   - pipeline-scan:
       vid: << parameters.vid >>
       vkey: << parameters.vkey >>
-      appid: << parameters.appid >>
-      version: << parameters.version >>
-      filepath: << parameters.filepath >>
+      working-directory: << parameters.working-directory >>
+      target-directory: << parameters.target-directory >>
+      policy-name: << parameters.policy-name >>
+      timeout: << parameters.timeout >>
+      verbose: << parameters.verbose >>
