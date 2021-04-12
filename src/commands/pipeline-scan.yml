@@ -7,14 +7,18 @@ parameters:
     type: env_var_name
     default: VERACODE_API_ID
     description: >
-      Name of env var containing your Veracode API ID. Pass this as a raw string.
-      If omitted it's assumed the CLI has already been setup with a valid token beforehand.
+      Name of env var containing your Veracode API ID.
+      Pass this as a raw string.
+      If omitted it's assumed the CLI has already been setup
+      with a valid token beforehand.
   vkey:
     type: env_var_name
     default: VERACODE_API_KEY
     description: >
-      Name of env var containing your Veracode API KEY. Pass this as a raw string.
-      If omitted it's assumed the CLI has already been setup with a valid token beforehand.
+      Name of env var containing your Veracode API KEY.
+      Pass this as a raw string.
+      If omitted it's assumed the CLI has already been setup
+      with a valid token beforehand.
   working-directory:
     description: The directory out of which circleci will run commands
     type: string
@@ -34,7 +38,9 @@ parameters:
     description: The target directory to scan with veracode.
     type: string
   timeout:
-    description: The amount of time(in minutes) before reporting an unsuccessful scan.
+    description: >
+      The amount of time(in minutes) before reporting
+      an unsuccessful scan.
     type: integer
     default: 60
   verbose:
@@ -43,31 +49,31 @@ parameters:
     default: true
 working_directory: ~/repo/<< parameters.working-directory >>
 steps:
-- run:
+  - run:
       name: "Package for upload to Veracode"
-          #command: zip -r upload.zip nodegoat
+      # command: zip -r upload.zip nodegoat
       command: zip -r $CIRCLE_PROJECT_REPONAME.zip nodegoat -x *node_modules/*
-- run:
+  - run:
       name: Download Policy
       no_output_timeout: 1m
       command: |
-        java -jar /opt/veracode/pipeline-scan.jar \
-        --policy_file << parameters.policy-name >> \
-        --request_policy << parameters.policy-name >> \
-        --veracode_api_id << parameters.vid >>  \
-        --veracode_api_key << parameters.vkey >>  \
-        --timeout << parameters.timeout >> \
-        --issue_details << parameters.verbose >> \
-        --summary_output true
-- run:
+          java -jar /opt/veracode/pipeline-scan.jar \
+          --policy_file << parameters.policy-name >> \
+          --request_policy << parameters.policy-name >> \
+          --veracode_api_id << parameters.vid >>  \
+          --veracode_api_key << parameters.vkey >>  \
+          --timeout << parameters.timeout >> \
+          --issue_details << parameters.verbose >> \
+          --summary_output true
+  - run:
       name: Scan Project
       no_output_timeout: 30m
       command: |
-        java -jar /opt/veracode/pipeline-scan.jar \
-        --file $CIRCLE_PROJECT_REPONAME.zip \
-        --policy_file ~/repo/<< parameters.policy-name >>.json \
-        --veracode_api_id << parameters.vid >> \
-        --veracode_api_key << parameters.vkey >>  \
-        --timeout << parameters.timeout >> \
-        --issue_details << parameters.verbose >> \
-        --summary_output true
+          java -jar /opt/veracode/pipeline-scan.jar \
+          --file $CIRCLE_PROJECT_REPONAME.zip \
+          --policy_file ~/repo/<< parameters.policy-name >>.json \
+          --veracode_api_id << parameters.vid >> \
+          --veracode_api_key << parameters.vkey >>  \
+          --timeout << parameters.timeout >> \
+          --issue_details << parameters.verbose >> \
+          --summary_output true
