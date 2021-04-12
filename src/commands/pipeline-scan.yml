@@ -47,7 +47,6 @@ parameters:
     description: Display verbose output to console
     type: boolean
     default: true
-working_directory: ~/repo/<< parameters.working-directory >>
 steps:
   - checkout:
         path: ~/repo
