@@ -49,6 +49,8 @@ parameters:
     default: true
 working_directory: ~/repo/<< parameters.working-directory >>
 steps:
+  - checkout:
+        path: ~/repo
   - run:
       name: "Package for upload to Veracode"
       # command: zip -r upload.zip nodegoat
