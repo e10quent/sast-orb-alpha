@@ -113,5 +113,5 @@ steps:
         -appname << parameters.appname >> \
         -createprofile true \
         -version << parameters.version >> \
-        -filepath << parameters.filepath >> \
-        <<parameters.additional-arguments>>
+        -filepath << parameters.filepath >>
+
