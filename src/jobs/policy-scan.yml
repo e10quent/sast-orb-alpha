@@ -96,6 +96,7 @@ parameters:
       Requirements.
   scanallnonfataltoplevelmodules:
     type: boolean
+    default: false
     description: 'All top level modules'
   selected:
     type: boolean
@@ -111,7 +112,9 @@ steps:
   - policy-scan:
       vid: << parameters.vid >>
       vkey: << parameters.vkey >>
+      teams: << parameters.teams >>
       appname: << parameters.appname >>
       version: << parameters.version >>
       filepath: << parameters.filepath >>
+
       # veracode test
