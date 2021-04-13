@@ -3,6 +3,10 @@ description: >
   Scan the application for SAST and U&S SCA with Veracode.
   This command calls the others, and should be used as the command for scanning.
 parameters:
+  tag:
+    type: string
+    default: "latest"
+    description: "Select a Veracode version"
   working-directory:
     type: string
     default: .
