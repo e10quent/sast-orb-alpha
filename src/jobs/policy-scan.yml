@@ -123,6 +123,4 @@ steps:
       createprofile: << parameters.createprofile >>
       version: << parameters.version >>
       filepath: << parameters.filepath >>
-      
-
       # veracode test
