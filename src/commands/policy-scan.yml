@@ -103,7 +103,7 @@ steps:
         -teams << parameters.teams >> \
         -action uploadandscan \
         -appname << parameters.appname >> \
-        -createprofile true \
+        -createprofile << parameters.createprofile >> \
         -version << parameters.version >> \
         -filepath << parameters.filepath >>
 

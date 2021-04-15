@@ -114,6 +114,7 @@ steps:
       vkey: << parameters.vkey >>
       teams: << parameters.teams >>
       appname: << parameters.appname >>
+      createprofile: << parameters.createprofile >>
       version: << parameters.version >>
       filepath: << parameters.filepath >>
 
