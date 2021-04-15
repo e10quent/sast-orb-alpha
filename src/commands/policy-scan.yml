@@ -72,10 +72,6 @@ parameters:
       By default, the integration uploads all the subdirectories and
       files of this filepath.Ensure you have prepared the files according
       to the Veracode Packaging Requirements.
-  scanallnonfataltoplevelmodules:
-    type: boolean
-    description: "All top level modules"
-
 steps:
   - run:
       name: "Package for upload to Veracode"
@@ -105,5 +101,4 @@ steps:
         -appname << parameters.appname >> \
         -createprofile << parameters.createprofile >> \
         -version << parameters.version >> \
-        -filepath << parameters.filepath >>
-
+        -filepath << parameters.filepath >> \
