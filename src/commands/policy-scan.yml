@@ -79,7 +79,7 @@ steps:
   - run:
       name: "Package for upload to Veracode"
    # command: zip -r upload.zip nodegoat
-      command: zip -r << parameters.file >>.zip
+      command: zip -r ${CIRCLE_PROJECT_REPONAME}.zip
   #  grab the Veracode agent
   # - run:
   #    name: "Get the Veracode agent"
