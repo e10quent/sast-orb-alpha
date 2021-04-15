@@ -106,11 +106,11 @@ steps:
       no_output_timeout: 30m
       command: |
         java -jar /opt/veracode/api-wrapper.jar
-        -vid << parameters.vid >> \
-        -vkey << parameters.key >> \
-        -teams << parameters.teams >> \
+        -vid "<< parameters.vid >>" \
+        -vkey "<< parameters.vkey >>" \
+        -teams "<< parameters.teams >>" \
         -action uploadandscan \
-        -appname << parameters.appname >> \
-        -createprofile << parameters.createprofile >> \
-        -version << parameters.version >> \
-        -filepath << parameters.filepath >> \
+        -appname "<< parameters.appname >>" \
+        -createprofile "<< parameters.createprofile >>" \
+        -version "<< parameters.version >>" \
+        -filepath "<< parameters.filepath >>" \

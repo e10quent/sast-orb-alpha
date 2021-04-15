@@ -9,10 +9,11 @@ usage:
   workflows:
     version: 2
     security-scan:
+      context: VERACODE
       jobs:
         - sast-orb/policy-scan:
-            vid: VERACODE_API_KEY_ID
-            vkey: VERACODE_API_KEY_SECRET
+            vid: ${VERACODE_API_ID}
+            vkey: ${VERACODE_API_KEY}
             package: true
             teams: "Development"
             appname: ${CIRCLE_PROJECT_REPONAME}

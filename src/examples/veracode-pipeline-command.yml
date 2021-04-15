@@ -12,20 +12,20 @@ usage:
       steps:
         - checkout
         - sast-orb/pipeline-scan:
-            vid: VERACODE_API_KEY_ID
-            vkey: VERACODE_API_KEY_SECRET
+            vid: ${VERACODE_API_ID}
+            vkey: ${VERACODE_API_KEY}
             package: true
-            teams: "Development"
-            appname: ${CIRCLE_PROJECT_REPONAME}
-            createprofile: false
+            project-name: ${CIRCLE_PROJECT_REPONAME}
+            verbose: true
             version: "CircleCI - ${CIRCLE_SHA1:0:7} - $CIRCLE_BUILD_NUM"
-            filepath: "${CIRCLE_PROJECT_REPONAME}.zip"
+            file: "${CIRCLE_PROJECT_REPONAME}.zip"
 
   workflows:
     version: 2
     sast-scan:
       jobs:
         - veracode-scan:
+            context: VERACODE
             filters:
               branches:
                 only: main

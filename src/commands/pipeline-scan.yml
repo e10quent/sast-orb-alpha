@@ -23,7 +23,7 @@ parameters:
     description: The directory out of which circleci will run commands
     type: string
     default: .
-  appname:
+  project-name:
     type: string
     default: "${CIRCLE_PROJECT_REPONAME}"
     description: Name of the Veracode application profile.
@@ -43,9 +43,14 @@ parameters:
       Packaging required before static scanning.
     type: boolean
     default: true
-  target-directory:
-    description: The target directory to scan with veracode.
+  file:
+    description: >
+      Filepath or folderpath of the files you want to upload to Veracode
+      for scanning.By default, the integration uploads all the subdirectories
+      and files of this filepath.Ensure you have prepared the files according
+      to the Veracode Packaging Requirements.
     type: string
+    default: "${CIRCLE_PROJECT_REPONAME}.zip"
   timeout:
     description: >
       The amount of time(in minutes) before reporting
@@ -58,10 +63,9 @@ parameters:
     default: true
 steps:
   - when:
-      condition: <<parameters.package>>
+      condition: << parameters.package >>
       steps:
-        - checkout:
-          path: ~/repo
+        - checkout
         - run:
           name: "Package for upload to Veracode"
           # command: zip -r upload.zip nodegoat
@@ -73,8 +77,8 @@ steps:
           java -jar /opt/veracode/pipeline-scan.jar \
           --policy_file << parameters.policy-name >> \
           --request_policy << parameters.policy-name >> \
-          --veracode_api_id << parameters.vid >>  \
-          --veracode_api_key << parameters.vkey >>  \
+          --veracode_api_id "<< parameters.vid >>"  \
+          --veracode_api_key "<< parameters.vkey >>"  \
           --timeout << parameters.timeout >> \
           --issue_details << parameters.verbose >> \
           --summary_output true
@@ -83,11 +87,11 @@ steps:
       no_output_timeout: 30m
       command: |
           java -jar /opt/veracode/pipeline-scan.jar \
-          --file $CIRCLE_PROJECT_REPONAME.zip \
+          --file << parameters.file >> \
           --policy_file ~/repo/<< parameters.policy-name >>.json \
-          --veracode_api_id << parameters.vid >> \
-          --veracode_api_key << parameters.vkey >>  \
-          --project_name <<parameters.appname>> \
+          --veracode_api_id "<< parameters.vid >>" \
+          --veracode_api_key "<< parameters.vkey >>"  \
+          --project_name "<< parameters.project-name >>" \
           --timeout << parameters.timeout >> \
           --issue_details << parameters.verbose >> \
           --summary_output true \

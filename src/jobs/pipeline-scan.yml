@@ -27,7 +27,7 @@ parameters:
     description: The directory out of which circleci will run commands
     type: string
     default: .
-  appname:
+  project-name:
     type: string
     default: "${CIRCLE_PROJECT_REPONAME}"
     description: Name of the Veracode application profile.
@@ -42,9 +42,14 @@ parameters:
       "Low", "Very Low"].
     type: string
     default: '"Very High, High"'
-  target-directory:
-    description: The target directory to scan with veracode.
+  file:
+    description: >
+      Files you want to upload to Veracode for scanning.
+      By default, the integration uploads all the subdirectories
+      and files of this filepath.Ensure you have prepared the files according
+      to the Veracode Packaging Requirements.
     type: string
+    default: "${CIRCLE_PROJECT_REPONAME}.zip"
   timeout:
     description: >
       The amount of time(in minutes) before reporting
@@ -65,9 +70,8 @@ steps:
   - pipeline-scan:
       vid: << parameters.vid >>
       vkey: << parameters.vkey >>
-      appname: <<parameters.appname>>
-      working-directory: << parameters.working-directory >>
-      target-directory: << parameters.target-directory >>
+      project-name: << parameters.project-name >>
+      file: "<< parameters.file >>"
       policy-name: << parameters.policy-name >>
       timeout: << parameters.timeout >>
       verbose: << parameters.verbose >>

@@ -12,8 +12,8 @@ usage:
       steps:
         - checkout
         - sast-orb/policy-scan:
-            vid: VERACODE_API_KEY_ID
-            vkey: VERACODE_API_KEY_SECRET
+            vid: ${VERACODE_API_ID}
+            vkey: ${VERACODE_API_KEY}
             package: true
             teams: "Development"
             appname: ${CIRCLE_PROJECT_REPONAME}
@@ -26,6 +26,7 @@ usage:
     sast-scan:
       jobs:
         - veracode-scan:
+            context: VERACODE
             filters:
               branches:
                 only: main
