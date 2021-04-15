@@ -23,6 +23,10 @@ parameters:
     description: The directory out of which circleci will run commands
     type: string
     default: .
+  appname:
+    type: string
+    default: "${CIRCLE_PROJECT_REPONAME}"
+    description: Name of the Veracode application profile.
   policy-name:
     description: Name of the custom policy to be applied to the scan
     type: string
@@ -34,6 +38,11 @@ parameters:
       "Low", "Very Low"].
     type: string
     default: '"Very High, High"'
+  package:
+    description: >
+      Packaging required before static scanning.
+    type: boolean
+    default: true
   target-directory:
     description: The target directory to scan with veracode.
     type: string
@@ -48,12 +57,15 @@ parameters:
     type: boolean
     default: true
 steps:
-  - checkout:
-        path: ~/repo
-  - run:
-      name: "Package for upload to Veracode"
-      # command: zip -r upload.zip nodegoat
-      command: zip -r $CIRCLE_PROJECT_REPONAME.zip nodegoat -x *node_modules/*
+  - when:
+      condition: <<parameters.package>>
+      steps:
+        - checkout:
+          path: ~/repo
+        - run:
+          name: "Package for upload to Veracode"
+          # command: zip -r upload.zip nodegoat
+          command: zip -r $CIRCLE_PROJECT_REPONAME.zip 
   - run:
       name: Download Policy
       no_output_timeout: 1m
@@ -75,6 +87,9 @@ steps:
           --policy_file ~/repo/<< parameters.policy-name >>.json \
           --veracode_api_id << parameters.vid >> \
           --veracode_api_key << parameters.vkey >>  \
+          --project_name <<parameters.appname>> \
           --timeout << parameters.timeout >> \
           --issue_details << parameters.verbose >> \
-          --summary_output true
+          --summary_output true \
+
+

@@ -51,7 +51,7 @@ parameters:
       Name or version of the build that you want to scan.
   filepath:
     type: string
-    default: ""
+    default: "${CIRCLE_PROJECT_REPONAME}.zip"
     description: >
       Filepath or folderpath of the files you want to upload to Veracode
       for scanning.By default, the integration uploads all the subdirectories
@@ -72,11 +72,22 @@ parameters:
       By default, the integration uploads all the subdirectories and
       files of this filepath.Ensure you have prepared the files according
       to the Veracode Packaging Requirements.
+  package:
+    type: boolean
+    default: true
+    description: >
+      Packaging required before static scanning.
 steps:
-  - run:
-      name: "Package for upload to Veracode"
-      # command: zip -r upload.zip nodegoat
-      command: zip -r $CIRCLE_PROJECT_REPONAME.zip nodegoat -x *node_modules/*
+  - when:
+      condition: <<parameters.package>>
+      steps:
+        - checkout:
+          path: ~/repo
+        - run:
+          name: "Package for upload to Veracode"
+          # command: zip -r upload.zip nodegoat
+          command: zip -r $CIRCLE_PROJECT_REPONAME.zip 
+ 
   #  grab the Veracode agent
   # - run:
   #    name: "Get the Veracode agent"
@@ -93,7 +104,9 @@ steps:
   # env vars are used to pass login creds and set the scan name
   - run:
       name: "Upload to Veracode"
-      command: java -jar /opt/veracode/api-wrapper.jar
+      no_output_timeout: 30m
+      command: |
+        java -jar /opt/veracode/api-wrapper.jar
         -vid << parameters.vid >> \
         -vkey << parameters.key >> \
         -teams << parameters.teams >> \

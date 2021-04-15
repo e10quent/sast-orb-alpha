@@ -39,14 +39,14 @@ parameters:
       existing teams for this account.
   vid:
     type: env_var_name
-    default: VERACODE_API_KEY_ID
+    default: VERACODE_API_ID
     description: >
       Name of env var containing your Veracode API ID.
       Pass this as a raw string. If omitted it's assumed the CLI has
       already been setup with a valid token beforehand.
   vkey:
     type: env_var_name
-    default: VERACODE_API_KEY_SECRET
+    default: VERACODE_API_KEY
     description: >
       Name of env var containing your Veracode API KEY.
       Pass this as a raw string. If omitted it's assumed the CLI has
@@ -101,6 +101,11 @@ parameters:
   selected:
     type: boolean
     description: 'platform selected modules'
+  package:
+    type: boolean
+    default: true
+    description: >
+      Packaging required before static scanning.
 
 working_directory: ~/repo/<< parameters.working-directory >>
 executor:
@@ -112,10 +117,12 @@ steps:
   - policy-scan:
       vid: << parameters.vid >>
       vkey: << parameters.vkey >>
+      package: << parameters.package >>
       teams: << parameters.teams >>
       appname: << parameters.appname >>
       createprofile: << parameters.createprofile >>
       version: << parameters.version >>
       filepath: << parameters.filepath >>
+      
 
       # veracode test
