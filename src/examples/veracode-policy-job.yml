@@ -22,5 +22,4 @@ usage:
             filters:
               branches:
                 only:
-                  - main
-                  - master 
+                - main

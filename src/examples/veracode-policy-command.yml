@@ -28,6 +28,5 @@ usage:
             context: VERACODE
             filters:
               branches:
-                only: 
+                only:
                 - main
-                - master

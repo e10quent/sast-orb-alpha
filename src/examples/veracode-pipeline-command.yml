@@ -28,5 +28,4 @@ usage:
             filters:
               branches:
                 only:
-                - develop
                 - /feature-.*/
