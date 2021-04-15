@@ -57,12 +57,6 @@ parameters:
       for scanning.By default, the integration uploads all the subdirectories
       and files of this filepath.Ensure you have prepared the files according
       to the Veracode Packaging Requirements.
-  exclude:
-    type: string
-    description: "modules to exclude from module selection"
-  include:
-    type: string
-    description: "modules to include in module selection"
   scantimeout:
     description: >
       Number of minutes to wait for the scan to complete and pass policy.
@@ -81,9 +75,7 @@ parameters:
   scanallnonfataltoplevelmodules:
     type: boolean
     description: "All top level modules"
-  selected:
-    type: boolean
-    description: "platform selected modules"
+
 steps:
   - run:
       name: "Package for upload to Veracode"
