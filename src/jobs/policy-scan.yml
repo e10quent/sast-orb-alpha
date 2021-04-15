@@ -72,12 +72,6 @@ parameters:
       uploads all the subdirectories and files of this filepath.
       Ensure you have prepared the files according to the
       Veracode Packaging Requirements.
-  exclude:
-    type: string
-    description: 'modules to exclude from module selection'
-  include:
-    type: string
-    description: 'modules to include in module selection'
   scantimeout:
     description: >
       Number of minutes to wait for the scan to complete and
@@ -101,11 +95,6 @@ parameters:
   selected:
     type: boolean
     description: 'platform selected modules'
-  package:
-    type: boolean
-    default: true
-    description: >
-      Packaging required before static scanning.
 
 working_directory: ~/repo/<< parameters.working-directory >>
 executor:
@@ -117,7 +106,6 @@ steps:
   - policy-scan:
       vid: << parameters.vid >>
       vkey: << parameters.vkey >>
-      package: << parameters.package >>
       teams: << parameters.teams >>
       appname: << parameters.appname >>
       createprofile: << parameters.createprofile >>
