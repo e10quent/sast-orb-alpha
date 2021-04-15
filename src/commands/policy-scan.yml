@@ -72,11 +72,7 @@ parameters:
       By default, the integration uploads all the subdirectories and
       files of this filepath.Ensure you have prepared the files according
       to the Veracode Packaging Requirements.
-  working-directory:
-    description: The directory out of which circleci will run commands
-    type: string
-    default: .
-working_directory: ~/repo/<< parameters.working-directory >>
+
 steps:
   - checkout:
       path: ~/repo
