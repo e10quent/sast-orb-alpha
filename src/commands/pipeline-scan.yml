@@ -62,14 +62,12 @@ parameters:
     type: boolean
     default: true
 steps:
-  - when:
-      condition: << parameters.package >>
-      steps:
-        - checkout
-        - run:
-          name: "Package for upload to Veracode"
-          # command: zip -r upload.zip nodegoat
-          command: zip -r $CIRCLE_PROJECT_REPONAME.zip
+  - checkout:
+      path: ~/repo
+  - run:
+      name: "Package for upload to Veracode"
+      # command: zip -r upload.zip nodegoat
+      command: zip -r $CIRCLE_PROJECT_REPONAME.zip
   - run:
       name: Download Policy
       no_output_timeout: 1m

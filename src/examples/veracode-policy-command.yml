@@ -14,7 +14,6 @@ usage:
         - sast-orb/policy-scan:
             vid: ${VERACODE_API_ID}
             vkey: ${VERACODE_API_KEY}
-            package: true
             teams: "Development"
             appname: ${CIRCLE_PROJECT_REPONAME}
             createprofile: false
@@ -29,4 +28,6 @@ usage:
             context: VERACODE
             filters:
               branches:
-                only: main
+                only: 
+                - main
+                - master

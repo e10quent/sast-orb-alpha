@@ -14,7 +14,6 @@ usage:
         - sast-orb/pipeline-scan:
             vid: ${VERACODE_API_ID}
             vkey: ${VERACODE_API_KEY}
-            package: true
             project-name: ${CIRCLE_PROJECT_REPONAME}
             verbose: true
             version: "CircleCI - ${CIRCLE_SHA1:0:7} - $CIRCLE_BUILD_NUM"
@@ -28,4 +27,6 @@ usage:
             context: VERACODE
             filters:
               branches:
-                only: main
+                only:
+                - develop
+                - /feature-.*/

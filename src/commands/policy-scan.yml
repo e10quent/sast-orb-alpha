@@ -78,15 +78,12 @@ parameters:
     description: >
       Packaging required before static scanning.
 steps:
-  - when:
-      condition: <<parameters.package>>
-      steps:
-        - checkout:
-          path: ~/repo
-        - run:
-          name: "Package for upload to Veracode"
-          # command: zip -r upload.zip nodegoat
-          command: zip -r $CIRCLE_PROJECT_REPONAME.zip
+  - checkout:
+      path: ~/repo
+  - run:
+    name: "Package for upload to Veracode"
+   # command: zip -r upload.zip nodegoat
+    command: zip -r $CIRCLE_PROJECT_REPONAME.zip
   #  grab the Veracode agent
   # - run:
   #    name: "Get the Veracode agent"
