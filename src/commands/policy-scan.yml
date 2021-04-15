@@ -72,11 +72,7 @@ parameters:
       By default, the integration uploads all the subdirectories and
       files of this filepath.Ensure you have prepared the files according
       to the Veracode Packaging Requirements.
-  package:
-    type: boolean
-    default: true
-    description: >
-      Packaging required before static scanning.
+
 steps:
   - checkout:
       path: ~/repo
