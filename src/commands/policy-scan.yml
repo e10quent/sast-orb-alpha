@@ -72,14 +72,14 @@ parameters:
       By default, the integration uploads all the subdirectories and
       files of this filepath.Ensure you have prepared the files according
       to the Veracode Packaging Requirements.
-
+working_directory: ~/repo
 steps:
-  - checkout:
-      path: ~/repo
+  - attach_workspace:
+      at: .
   - run:
-    name: "Package for upload to Veracode"
+      name: "Package for upload to Veracode"
    # command: zip -r upload.zip nodegoat
-    command: zip -r $CIRCLE_PROJECT_REPONAME.zip
+      command: zip -r << parameters.file >>.zip
   #  grab the Veracode agent
   # - run:
   #    name: "Get the Veracode agent"
